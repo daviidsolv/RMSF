@@ -1,63 +1,53 @@
 #include <stdio.h>
+#include <unistd.h>
 #include <sys/stat.h>
 #include <dirent.h>
-#include <unistd.h>
 #include <string.h>
 #include <errno.h>
 #include <pwd.h>
 
-int createTrashFolder();
-int setupTrashFolder();
+#define PATH_MAX_LEN 100
 
-int main(int argc, char const *argv[])
-{
-    char* baseDir;
-    getcwd(baseDir, sizeof(baseDir));
-    //setupTrashFolder();
-    for(int i = 2; i < argc; i++) {
-        char* temp;
-        strcpy(temp, baseDir);
-        strcat(temp, argv[i]);
-        moveToTrash(temp);
+char* setupTrash();
+void moveToTrash(char *trashDir, char *fileOrDirectory, char baseDir[PATH_MAX_LEN]);
+
+int main(int argc, char const *argv[]) {
+    //Get trash directory or create it
+    char *trashDirectory = setupTrash();
+
+    //Get current working directory
+    char currentDir[PATH_MAX_LEN];
+    getcwd(currentDir, sizeof(currentDir));
+
+    //Parse input
+    for(int i = 1; i < argc; i++) {
+        moveToTrash(trashDirectory, argv[i], currentDir);
     }
+
     return 0;
 }
 
-int setupTrashFolder() {
-    char final[30];
-    char directory[] = "/home/";
-    char* userName = getlogin();
-    char binDir[] = "/.trash/   ";
-    strcat(directory, userName);
-    strcat(directory, binDir);
-    strcpy(final, directory);
-    printf("Trying to open: %s and %s\n", directory, final);
-    DIR* dir = opendir(directory);
-    if(dir) {
-        printf("Directory already exists!\n");
-    } else if (ENOENT == errno) {
-        if(createTrashFolder(final) != 0)
-            printf("Cannot create folder at location: %s\n", final);
-    } else {
-        printf("Undefined error!\n");
-    }
-    return 0;
+char* setupTrash(){
+    struct passwd *pw = getpwuid(getuid());
+    const char *trashDir = pw->pw_dir;
+    const char trashName[] = "/.trash/";
+
+    strcat(trashDir, trashName);
+
+    DIR *dir = opendir(trashDir);
+    if (!dir && ENOENT == errno)
+        if(mkdir(trashDir, 0777) != 0)
+            printf("Error ocurred while creating folder!\n");
+    else
+        printf("Undefined error!");
+
+    return trashDir;
 }
 
-int createTrashFolder(char directory[30]) {
-    return mkdir(directory, 0777);
-}
-
-int moveToTrash(char* fileOrDirectory) {
-    char trashbin[] = "/home/david/.trash";
-    char* temp;
-    char c;
-    int i = strlen(fileOrDirectory);
-    while(c != '/' || i == 0) {
-        c = fileOrDirectory[i];
-        strcat(temp, c);
-        i--;
-    }
-    strcat(trashbin, strrev(temp));
-    rename(fileOrDirectory, trashbin);
+void moveToTrash(char *trashDir, char *fileOrDirectory, char baseDir[PATH_MAX_LEN]) {
+    printf("Safely deleting %s...\n", fileOrDirectory);
+    char newLocation[PATH_MAX_LEN];
+    strcpy(newLocation, trashDir);
+    strcat(newLocation, fileOrDirectory);
+    rename(fileOrDirectory, newLocation);
 }
