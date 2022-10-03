@@ -37,10 +37,10 @@ La vostra tasca és prepar un fitxer test.sh que contingui totes les comandes qu
 la vostra solució.
 
 ### Resposta
-#!/bin/sh
-echo "Testing RMSF app.."
-echo "Creating dummy files and directories."
-touch testFile1.txt
+#!/bin/sh\n
+echo "Testing RMSF app.."\n
+echo "Creating dummy files and directories."\n
+touch testFile1.txt\n
 touch testFile2.txt
 mkdir testFolder
 touch ./testFolder/testFile3.c
