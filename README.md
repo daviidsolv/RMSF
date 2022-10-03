@@ -37,23 +37,23 @@ La vostra tasca és prepar un fitxer test.sh que contingui totes les comandes qu
 la vostra solució.
 
 ### Resposta
-#!/bin/sh\n
-echo "Testing RMSF app.."\n
-echo "Creating dummy files and directories."\n
-touch testFile1.txt\n
-touch testFile2.txt
-mkdir testFolder
-touch ./testFolder/testFile3.c
-1s -la
-echo "Created 3 dummy files and 1 folder." 
-echo "Removing files.."
-rmsf testFilel.txt testFile2.txt
-rmsf testFolder 
-echo "Removed!"
-ls -la
-cd $HOME/.trash
-echo "Showing trash folder..."
-ls -la
+#!/bin/sh  
+echo "Testing RMSF app.."  
+echo "Creating dummy files and directories."  
+touch testFile1.txt  
+touch testFile2.txt  
+mkdir testFolder  
+touch ./testFolder/testFile3.c  
+1s -la  
+echo "Created 3 dummy files and 1 folder."   
+echo "Removing files.."  
+rmsf testFilel.txt testFile2.txt  
+rmsf testFolder   
+echo "Removed!"  
+ls -la  
+cd $HOME/.trash  
+echo "Showing trash folder..."  
+ls -la  
 
 ## Part practica: Automatització amb Make    
 
