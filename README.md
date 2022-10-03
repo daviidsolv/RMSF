@@ -64,9 +64,9 @@ capaç de compilar, executar, testejar amb el fitxer test.sh i instal·lar l’e
 ### Resposta
 Per poder instal·lar directament desde el makefile s'ha d'executar com superuser.
 
-rmsf: rmsf.c
-	gcc rmsf.c -o rmsf
-	echo "RMSF Compiled!"
-	./test.sh
-	cp ./rmsf /usr/bin
-	echo "Successfully installed RMSF in /usr/bin!"
+rmsf: rmsf.c  
+	gcc rmsf.c -o rmsf  
+	echo "RMSF Compiled!"  
+	./test.sh  
+	cp ./rmsf /usr/bin  
+	echo "Successfully installed RMSF in /usr/bin!"  
