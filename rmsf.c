@@ -21,7 +21,10 @@ int main(int argc, char const *argv[]) {
 
     //Parse input
     for(int i = 1; i < argc; i++) {
-        moveToTrash(trashDirectory, argv[i], currentDir);
+        if(access(argv[i], R_OK|W_OK) != -1)
+            moveToTrash(trashDirectory, argv[i], currentDir);
+        else
+            printf("rmsf: cannot remove '%s': No such file or directory! \n", argv[i]);
     }
 
     return 0;

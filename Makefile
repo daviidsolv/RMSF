@@ -1,6 +1,12 @@
-rmsf: rmsf.c
+compile: rmsf.c
 	gcc rmsf.c -o rmsf
 	echo "RMSF Compiled!"
-	./test.sh
+
+install:
 	cp ./rmsf /usr/bin
+	rm ./rmsf
 	echo "Successfully installed RMSF in /usr/bin!"
+
+test:
+	echo "Testing RMSF..."
+	./test.sh

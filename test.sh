@@ -8,8 +8,9 @@ touch ./testFolder/testFile3.c
 ls -la
 echo "Created 3 dummy files and 1 folder." 
 echo "Removing files.."
-rmsf testFilel.txt testFile2.txt
+rmsf testFile1.txt testFile2.txt
 rmsf testFolder 
+rmsf testFile89
 echo "Removed!"
 ls -la
 cd $HOME/.trash
